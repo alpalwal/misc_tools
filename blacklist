@@ -1,0 +1,10 @@
+#! /bin/bash
+# Alex@dome9.com 5/1/17
+# Deletes ALL of the IPs in your blacklist
+# This uses the V1 API. To get your key/ID go to 'My Settings' and the in the V2 box at the bottom left of the screen, click on the "Using V1 API?" link. This will pull up the dialog for getting your V1 API key.
+API='yourusername:yourV1APIkey'
+
+for IP in $(curl -H "Accept: application/json" -u $API https://api.dome9.com/v1/blacklist/Items/ | jq 'map (.IP)' | egrep -v '\[|\]' | sed s/\"//g | sed s/,//g | sed s/\ //g)
+do
+    curl -H "Accept: application/json" -u $API -X "DELETE"  https://api.dome9.com/v1/blacklist/Items/$IP
+done
