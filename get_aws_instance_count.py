@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#python script for getting a list of all instances in ALL regions in an AWS account. 
+#Python script for getting a list of all instances in ALL regions in an AWS account. 
 #This runs on the default CLI profile by default. If you want to change that, run 'export AWS_PROFILE=<yourProfileName>' before executing the script
 #Taken from here: https://stackoverflow.com/questions/40164786/determine-how-many-aws-instances-are-in-a-zone
 
