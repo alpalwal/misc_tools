@@ -1,0 +1,47 @@
+#!/bin/bash
+#Script for running compliance assessments and dumping them to a log file for SIEM ingestion
+#11/14/17
+
+USER="REPLACE"
+
+SECRET="REPLACE"
+
+LOG=/var/log/dome9-compliance-checks
+
+#Policy IDs to Check
+
+ID1=1
+
+ID2=2
+
+ID3=3
+
+ID4=4
+
+#Accounts to Check
+
+declare -a ACCOUNTLIST=("123" "456" "789")
+
+arraylength=${#ACCOUNTLIST[@]}
+
+for (( i=1; i<${arraylength}+1; i++ ));
+
+do
+
+curl -k -u $USER:$SECRET -X POST --header "Content-Type: application/json" -d '{"id":'$ID1',"cloudAccountId":'${ACCOUNTLIST[$i-1]}'}' https://api.dome9.com/v2/assessment/bundle >> $LOG
+
+echo " " >> $LOG
+
+curl -k -u $USER:$SECRET -X POST --header "Content-Type: application/json" -d '{"id":'$ID2',"cloudAccountId":'${ACCOUNTLIST[$i-1]}'}' https://api.dome9.com/v2/assessment/bundle >> $LOG
+
+echo " " >> $LOG
+
+curl -k -u $USER:$SECRET -X POST --header "Content-Type: application/json" -d '{"id":'$ID3',"cloudAccountId":'${ACCOUNTLIST[$i-1]}'}' https://api.dome9.com/v2/assessment/bundle
+
+echo " " >> $LOG
+
+curl -k -u $USER:$SECRET -X POST --header "Content-Type: application/json" -d '{"id":'$ID4',"cloudAccountId":'${ACCOUNTLIST[$i-1]}'}' https://api.dome9.com/v2/assessment/bundle
+
+echo " " >> $LOG
+
+done
